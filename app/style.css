@@ -1,0 +1,19 @@
+body {
+  margin: 42px 0 0 0;
+}
+
+.progress-bar {
+  transition: width 0.05s ease;
+}
+
+input.sliderText.form-control {
+  width: 53px;
+}
+
+.progress-bar.progress-bar-orange {
+  background-color: #CF622C;
+}
+
+.progress-bar.progress-bar-end-of-world {
+  background-color: #4D2423;
+}
