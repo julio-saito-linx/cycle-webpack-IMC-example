@@ -1,5 +1,5 @@
 import {Observable} from 'rx';
-import {div, h1, h2, h3, hr, form} from '@cycle/dom';
+import {div, h1, h3, hr, form, a} from '@cycle/dom';
 import isolate from '@cycle/isolate';
 import LabeledSlider from './LabeledSlider';
 
@@ -74,7 +74,15 @@ function BmiCalculator({DOM}) {
       (bmiResult, weightVTree, heightVTree) =>
         div('.container', [
 
-          h1('Índice de Massa Corporal'),
+          h1({title: 'O índice de massa corporal (IMC) é uma medida' +
+            ' internacional usada para calcular se uma pessoa está no peso ideal.' +
+            ' Tal índice foi desenvolvido pelo polímata Lambert Quételet no fim do' +
+            ' século XIX. Trata-se de um método fácil e rápido para a avaliação do' +
+            ' nível de gordura de cada pessoa, ou seja, é um preditor' +
+            ' internacional de obesidade adotado pela Organização Mundial da Saúde' +
+            ' (OMS). (fonte: wikipedia)'},
+            ['Índice de Massa Corporal']),
+
           hr(),
           form('.form-horizontal', [
             weightVTree,
@@ -128,6 +136,20 @@ function BmiCalculator({DOM}) {
               'title': 'obesidade II (40 - 35)'
             }, [ 'obesidade II (40 - 35)' ]),
           ]),
+
+          div([
+            a({
+              href: 'https://github.com/saitodisse/cycle-webpack-IMC-example',
+              target: '_blank',
+            }, ['Fork me on GitHub']),
+            hr(),
+            'powered by: ',
+            a({href: 'http://cycle.js.org/', target: '_blank'}, ['Cycle.js']),
+            ', ',
+            a({href: 'https://webpack.github.io/', target: '_blank'}, ['webpack']),
+            ', ',
+            a({href: 'https://babeljs.io/', target: '_blank'}, ['babel']),
+          ])
 
         ])
       )

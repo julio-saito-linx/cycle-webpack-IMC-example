@@ -1,11 +1,11 @@
 {
-  "name": "cycle-bmi-webpack",
+  "name": "cycle-webpack-IMC-example",
   "version": "0.0.1",
   "description": "Cycle.js + webpack",
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/saitodisse/cycle-bmi-webpack.git"
+    "url": "https://github.com/saitodisse/cycle-webpack-IMC-example"
   },
   "keywords": [
     "express",
@@ -15,9 +15,9 @@
   "author": "Julio M Saito",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/saitodisse/cycle-bmi-webpack/issues"
+    "url": "https://github.com/saitodisse/cycle-webpack-IMC-example"
   },
-  "homepage": "https://github.com/saitodisse/cycle-bmi-webpack",
+  "homepage": "https://github.com/saitodisse/cycle-webpack-IMC-example",
   "scripts": {
     "start": "node server",
     "lint": "eslint app/**/*.js",
