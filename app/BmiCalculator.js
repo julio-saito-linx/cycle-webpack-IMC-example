@@ -66,7 +66,7 @@ function BmiCalculator({DOM}) {
         description
       };
     }
-  ).debounce(100);
+  ).debounce(250);
 
   const IMC_LENGTH = 28;
 
