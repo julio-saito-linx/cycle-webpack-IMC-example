@@ -1,16 +1,19 @@
-# Cycle.js IMC
+# Cycle.js BMI example with webpack
 
-## Run
+(in pt-BR `bmi` is `imc`)
+
+## Install and Watch
 
 ```sh
-npm i
+npm install
 npm start
 ```
 
-## Deploy
+- open http://localhost:3000
+
+## Publish
 
 ```sh
-npm install --global surge
-surge -p ./dist -d imc.surge.sh
+npm run publish
 ```
 

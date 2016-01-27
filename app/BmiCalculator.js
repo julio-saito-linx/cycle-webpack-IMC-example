@@ -81,9 +81,14 @@ function BmiCalculator({DOM}) {
           div('.progress', [
             div({
               className: 'progress-bar progress-bar-danger',
-              style: 'width: ' + ((18.5 - 12) / IMC_LENGTH) * 100 + '%',
-              'title': 'muito magro (< 18.5)'
-            }, [ 'muito magro (< 18.5)' ]),
+              style: 'width: ' + ((15 - 12) / IMC_LENGTH) * 100 + '%',
+              'title': 'anorexo (< 15)'
+            }, [ 'anorexo (< 15)' ]),
+            div({
+              className: 'progress-bar progress-bar-warning',
+              style: 'width: ' + ((18.5 - 15) / IMC_LENGTH) * 100 + '%',
+              'title': 'abaixo do peso (15 - 18.5)'
+            }, [ 'abaixo do peso (15 - 18.5)' ]),
             div({
               className: 'progress-bar progress-bar-success',
               style: 'width: ' + ((25 - 18.5) / IMC_LENGTH) * 100 + '%',
