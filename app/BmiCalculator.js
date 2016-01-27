@@ -1,5 +1,5 @@
 import {Observable} from 'rx';
-import {div, h1, h2, hr, form} from '@cycle/dom';
+import {div, h1, h2, h3, hr, form} from '@cycle/dom';
 import isolate from '@cycle/isolate';
 import LabeledSlider from './LabeledSlider';
 
@@ -31,6 +31,7 @@ function BmiCalculator({DOM}) {
     (weight, height) => {
       const heightMeters = height * 0.01;
       const bmi = weight / (heightMeters * heightMeters);
+      const bmiFormated = Math.floor(bmi * 100) / 100;
 
       let className = 'progress-bar-success';
       let description = '';
@@ -59,6 +60,7 @@ function BmiCalculator({DOM}) {
 
       return {
         bmi,
+        bmiFormated,
         className,
         description
       };
@@ -71,19 +73,35 @@ function BmiCalculator({DOM}) {
     DOM: bmi$.combineLatest(weightSlider.DOM, heightSlider.DOM,
       (bmiResult, weightVTree, heightVTree) =>
         div('.container', [
-          h1('Índice de massa corporal'),
+
+          h1('Índice de Massa Corporal'),
           hr(),
           form('.form-horizontal', [
             weightVTree,
             heightVTree,
           ]),
           hr(),
+
+          h3([`${bmiResult.description}`]),
+          hr(),
+
+          h3([`IMC: ${bmiResult.bmiFormated}`]),
+          hr(),
+
+          div('.progress', [
+            div({
+              className: 'progress-bar ' + bmiResult.className,
+              style: 'width: ' + (bmiResult.bmi - 12) / IMC_LENGTH * 100 + '%',
+              'title': 'IMC: ' + bmiResult.bmiFormated
+            }, [ bmiResult.bmiFormated ]),
+          ]),
+
           div('.progress', [
             div({
               className: 'progress-bar progress-bar-danger',
               style: 'width: ' + ((15 - 12) / IMC_LENGTH) * 100 + '%',
-              'title': 'anorexo (< 15)'
-            }, [ 'anorexo (< 15)' ]),
+              'title': 'anorexia (< 15)'
+            }, [ 'anorexia (< 15)' ]),
             div({
               className: 'progress-bar progress-bar-warning',
               style: 'width: ' + ((18.5 - 15) / IMC_LENGTH) * 100 + '%',
@@ -110,17 +128,6 @@ function BmiCalculator({DOM}) {
               'title': 'obesidade II (40 - 35)'
             }, [ 'obesidade II (40 - 35)' ]),
           ]),
-          div('.progress', [
-            div({
-              className: 'progress-bar ' + bmiResult.className,
-              style: 'width: ' + (bmiResult.bmi - 12) / IMC_LENGTH * 100 + '%',
-              'title': 'IMC: ' + Math.floor(bmiResult.bmi * 100) / 100
-            }, [ Math.floor(bmiResult.bmi * 100) / 100 ]),
-          ]),
-
-          h2([
-            bmiResult.description
-          ])
 
         ])
       )
