@@ -1,7 +1,8 @@
 import {Observable} from 'rx';
-import {div, h1, h3, hr, form, a} from '@cycle/dom';
+import {div, h3, h4, hr, form, a} from '@cycle/dom';
 import isolate from '@cycle/isolate';
 import LabeledSlider from './LabeledSlider';
+import RGBScale from 'rgb-scale';
 
 function BmiCalculator({DOM}) {
   const WeightSlider = isolate(LabeledSlider);
@@ -48,7 +49,7 @@ function BmiCalculator({DOM}) {
         className = 'progress-bar-warning';
         description = 'acima do peso';
       } else if (bmi >= 30 && bmi < 35) {
-        className = 'progress-bar-orange';
+        className = 'progress-bar-#BB491B';
         description = 'obesidade';
       } else if (bmi >= 35 && bmi < 40) {
         className = 'progress-bar-danger';
@@ -65,78 +66,155 @@ function BmiCalculator({DOM}) {
         description
       };
     }
-  );
+  ).debounce(100);
 
   const IMC_LENGTH = 28;
+
+  const getCurrentColor = (bmi) => {
+    const colors = [
+      [140, 18, 18, 1],
+      [181, 162, 13, 1],
+      [0, 128, 0, 1],
+      [181, 162, 13, 1],
+      [187, 73, 27, 1],
+      [140, 18, 18, 1]
+    ];
+    const positions = [
+      0,
+      0.17,
+      0.34,
+      0.46,
+      0.73,
+      1];
+    const domain = [0, 100];
+
+    const scale = RGBScale(colors, positions, domain);
+
+    const percentage = (bmi - 12) / IMC_LENGTH * 100;
+    const colorArray = scale(percentage);
+
+    const getColor = (index) => Math.floor(colorArray[index]);
+
+    return `rgba(${getColor(0)}, ${getColor(1)}, ${getColor(2)}, ${getColor(3)})`;
+  };
 
   return {
     DOM: bmi$.combineLatest(weightSlider.DOM, heightSlider.DOM,
       (bmiResult, weightVTree, heightVTree) =>
         div('.container', [
 
-          h1({title: 'O índice de massa corporal (IMC) é uma medida' +
+          h3({title: 'O índice de massa corporal (IMC) é uma medida' +
             ' internacional usada para calcular se uma pessoa está no peso ideal.' +
             ' Tal índice foi desenvolvido pelo polímata Lambert Quételet no fim do' +
             ' século XIX. Trata-se de um método fácil e rápido para a avaliação do' +
-            ' nível de gordura de cada pessoa, ou seja, é um preditor' +
+            ' nível de gordura de cada pessoa, ou seja, é um p#8C1212itor' +
             ' internacional de obesidade adotado pela Organização Mundial da Saúde' +
             ' (OMS). (fonte: wikipedia)'},
             ['Índice de Massa Corporal']),
-
           hr(),
+
           div('.row', [
             div('.col-md-6 col-xs-12', [
               form('.form-horizontal', [
                 weightVTree,
+                hr(),
                 heightVTree,
               ]),
               hr(),
 
-              h3([`${bmiResult.description}`]),
-              hr(),
-
-              h3([`IMC: ${bmiResult.bmiFormated}`]),
+              h4([`IMC: ${bmiResult.bmiFormated} - ${bmiResult.description}`]),
               hr(),
 
               div('.progress', [
                 div({
-                  className: 'progress-bar ' + bmiResult.className,
-                  style: 'width: ' + (bmiResult.bmi - 12) / IMC_LENGTH * 100 + '%',
-                  'title': 'IMC: ' + bmiResult.bmiFormated
+                  className: 'progress-bar',
+                  style: {
+                    width: (bmiResult.bmi - 12) / IMC_LENGTH * 100 + '%',
+                    'background-color': getCurrentColor(bmiResult.bmi),
+                  },
+                  title: 'IMC: ' + bmiResult.bmiFormated,
                 }, [ bmiResult.bmiFormated ]),
               ]),
 
               div('.progress', [
                 div({
-                  className: 'progress-bar progress-bar-danger',
-                  style: 'width: ' + ((15 - 12) / IMC_LENGTH) * 100 + '%',
-                  'title': 'anorexia (< 15)'
-                }, [ 'anorexia (< 15)' ]),
+                  style: {
+                    height: '100%',
+                    'line-height': '20px',
+                    float: 'left',
+                    'text-align': 'center',
+                    color: '#fff',
+                    'font-size': '12px',
+                    width: ((15 - 12) / IMC_LENGTH) * 100 + '%',
+                    'background-color': '#8C1212',
+                  },
+                  title: 'anorexia (< 15)',
+                }, [ '< 15' ]),
                 div({
-                  className: 'progress-bar progress-bar-warning',
-                  style: 'width: ' + ((18.5 - 15) / IMC_LENGTH) * 100 + '%',
-                  'title': 'abaixo do peso (15 - 18.5)'
-                }, [ 'abaixo do peso (15 - 18.5)' ]),
+                  style: {
+                    height: '100%',
+                    'line-height': '20px',
+                    float: 'left',
+                    'text-align': 'center',
+                    color: '#fff',
+                    'font-size': '12px',
+                    width: ((18.5 - 15) / IMC_LENGTH) * 100 + '%',
+                    'background-color': '#B5A20D',
+                  },
+                  title: 'abaixo do peso (15 - 18.5)',
+                }, [ '15 - 18.5' ]),
                 div({
-                  className: 'progress-bar progress-bar-success',
-                  style: 'width: ' + ((25 - 18.5) / IMC_LENGTH) * 100 + '%',
-                  'title': 'ok (18.5 - 25)'
-                }, [ 'ok (18.5 - 25)' ]),
+                  style: {
+                    height: '100%',
+                    'line-height': '20px',
+                    float: 'left',
+                    'text-align': 'center',
+                    color: '#fff',
+                    'font-size': '12px',
+                    width: ((25 - 18.5) / IMC_LENGTH) * 100 + '%',
+                    'background-color': 'green',
+                  },
+                  title: 'ok (18.5 - 25)',
+                }, [ '18.5 - 25' ]),
                 div({
-                  className: 'progress-bar progress-bar-warning',
-                  style: 'width: ' + ((30 - 25) / IMC_LENGTH) * 100 + '%',
-                  'title': 'acima do peso (25 - 30)'
-                }, [ 'acima do peso (25 - 30)' ]),
+                  style: {
+                    height: '100%',
+                    'line-height': '20px',
+                    float: 'left',
+                    'text-align': 'center',
+                    color: '#fff',
+                    'font-size': '12px',
+                    width: ((30 - 25) / IMC_LENGTH) * 100 + '%',
+                    'background-color': '#B5A20D',
+                  },
+                  title: 'acima do peso (25 - 30)',
+                }, [ '25 - 30' ]),
                 div({
-                  className: 'progress-bar progress-bar-orange',
-                  style: 'width: ' + ((35 - 30) / IMC_LENGTH) * 100 + '%',
-                  'title': 'obesidade I (30 - 35)'
-                }, [ 'obesidade I (30 - 35)' ]),
+                  style: {
+                    height: '100%',
+                    'line-height': '20px',
+                    float: 'left',
+                    'text-align': 'center',
+                    color: '#fff',
+                    'font-size': '12px',
+                    width: ((35 - 30) / IMC_LENGTH) * 100 + '%',
+                    'background-color': '#BB491B',
+                  },
+                  title: 'obesidade I (30 - 35)',
+                }, [ '30 - 35' ]),
                 div({
-                  className: 'progress-bar progress-bar-danger',
-                  style: 'width: ' + ((40 - 35) / IMC_LENGTH) * 100 + '%',
-                  'title': 'obesidade II (40 - 35)'
-                }, [ 'obesidade II (40 - 35)' ]),
+                  style: {
+                    height: '100%',
+                    'line-height': '20px',
+                    float: 'left',
+                    'text-align': 'center',
+                    color: '#fff',
+                    'font-size': '12px',
+                    width: ((40 - 35) / IMC_LENGTH) * 100 + '%',
+                    'background-color': '#8C1212',
+                  },
+                  title: 'obesidade II (40 - 35)',
+                }, [ '40 - 35' ]),
               ]),
 
               div([
@@ -153,6 +231,8 @@ function BmiCalculator({DOM}) {
                 a({href: 'https://babeljs.io/', target: '_blank'}, ['babel']),
                 ', ',
                 a({href: 'https://surge.sh/', target: '_blank'}, ['surge.sh']),
+                ', ',
+                a({href: 'https://github.com/miguelmota/rgb-scale', target: '_blank'}, ['rgb-scale']),
               ])
             ]),
           ]),

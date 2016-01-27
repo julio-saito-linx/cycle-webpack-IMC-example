@@ -1,5 +1,5 @@
 import {Observable} from 'rx';
-import {div, label, input} from '@cycle/dom';
+import {div, label, input, h4} from '@cycle/dom';
 
 function LabeledSlider({DOM, props$}) {
   const initialValue$ = props$.map(props => props.initial).last();
@@ -18,24 +18,39 @@ function LabeledSlider({DOM, props$}) {
     ;
 
   const vtree$ = Observable.combineLatest(props$, value$, (props, value) =>
-    div('.form-group', [
-      label('.col-xs-2 .control-label', [
-        props.label + ': ',
-      ]),
-      div('.col-xs-2', [
-        input('.sliderText .form-control', {
-          type: 'text', value: value
-        })
-      ]),
-      div('.col-xs-6', [
-        input('.sliderRange .form-control', {
-          type: 'range', min: props.min, max: props.max, value: value
-        }),
-      ]),
-      label('.col-xs-2 .control-label', [
-        value + props.unit,
-      ]),
-    ]),
+    div('.row', [
+      div('.col-xs-12', [
+        div('.row', [
+          div('.col-xs-12', [
+            div('.form-group', [
+              label('.col-xs-2 .control-label', [
+                props.label + ': ',
+              ]),
+              div('.col-xs-3', [
+                input('.sliderText .form-control', {
+                  type: 'number', value: value
+                })
+              ]),
+              div('.col-xs-4', [
+                h4(value + props.unit),
+              ]),
+
+            ])
+          ])
+        ]),
+        div('.row', [
+          div('.col-xs-12', [
+            div('.form-group', [
+              div('.col-xs-12', [
+                input('.sliderRange .form-control', {
+                  type: 'range', min: props.min, max: props.max, value: value
+                }),
+              ]),
+            ])
+          ])
+        ])
+      ])
+    ])
   );
 
   return {
