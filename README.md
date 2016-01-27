@@ -1,6 +1,6 @@
 # Cycle.js BMI example with webpack
 
-(in pt-BR `bmi` is `imc`)
+(in pt-BR `BMI` is `IMC`)
 
 ## Install and Watch
 
@@ -11,9 +11,10 @@ npm start
 
 - open http://localhost:3000
 
-## Publish
+### publish to `surge.sh`
 
 ```sh
+npm install --global surge
 npm run publish
 ```
 
