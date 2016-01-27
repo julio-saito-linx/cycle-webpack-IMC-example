@@ -19,20 +19,20 @@ function LabeledSlider({DOM, props$}) {
 
   const vtree$ = Observable.combineLatest(props$, value$, (props, value) =>
     div('.form-group', [
-      label('.col-sm-2 .control-label', [
+      label('.col-xs-2 .control-label', [
         props.label + ': ',
       ]),
-      div('.col-sm-2', [
+      div('.col-xs-2', [
         input('.sliderText .form-control', {
           type: 'text', value: value
         })
       ]),
-      div('.col-sm-6', [
+      div('.col-xs-6', [
         input('.sliderRange .form-control', {
           type: 'range', min: props.min, max: props.max, value: value
         }),
       ]),
-      label('.col-sm-2 .control-label', [
+      label('.col-xs-2 .control-label', [
         value + props.unit,
       ]),
     ]),

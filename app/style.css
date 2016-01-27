@@ -3,7 +3,7 @@ body {
 }
 
 .progress-bar {
-  transition: width 0.05s ease;
+  transition: width 0.1s ease;
 }
 
 input.sliderText.form-control {

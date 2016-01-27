@@ -84,72 +84,78 @@ function BmiCalculator({DOM}) {
             ['Índice de Massa Corporal']),
 
           hr(),
-          form('.form-horizontal', [
-            weightVTree,
-            heightVTree,
+          div('.row', [
+            div('.col-md-6 col-xs-12', [
+              form('.form-horizontal', [
+                weightVTree,
+                heightVTree,
+              ]),
+              hr(),
+
+              h3([`${bmiResult.description}`]),
+              hr(),
+
+              h3([`IMC: ${bmiResult.bmiFormated}`]),
+              hr(),
+
+              div('.progress', [
+                div({
+                  className: 'progress-bar ' + bmiResult.className,
+                  style: 'width: ' + (bmiResult.bmi - 12) / IMC_LENGTH * 100 + '%',
+                  'title': 'IMC: ' + bmiResult.bmiFormated
+                }, [ bmiResult.bmiFormated ]),
+              ]),
+
+              div('.progress', [
+                div({
+                  className: 'progress-bar progress-bar-danger',
+                  style: 'width: ' + ((15 - 12) / IMC_LENGTH) * 100 + '%',
+                  'title': 'anorexia (< 15)'
+                }, [ 'anorexia (< 15)' ]),
+                div({
+                  className: 'progress-bar progress-bar-warning',
+                  style: 'width: ' + ((18.5 - 15) / IMC_LENGTH) * 100 + '%',
+                  'title': 'abaixo do peso (15 - 18.5)'
+                }, [ 'abaixo do peso (15 - 18.5)' ]),
+                div({
+                  className: 'progress-bar progress-bar-success',
+                  style: 'width: ' + ((25 - 18.5) / IMC_LENGTH) * 100 + '%',
+                  'title': 'ok (18.5 - 25)'
+                }, [ 'ok (18.5 - 25)' ]),
+                div({
+                  className: 'progress-bar progress-bar-warning',
+                  style: 'width: ' + ((30 - 25) / IMC_LENGTH) * 100 + '%',
+                  'title': 'acima do peso (25 - 30)'
+                }, [ 'acima do peso (25 - 30)' ]),
+                div({
+                  className: 'progress-bar progress-bar-orange',
+                  style: 'width: ' + ((35 - 30) / IMC_LENGTH) * 100 + '%',
+                  'title': 'obesidade I (30 - 35)'
+                }, [ 'obesidade I (30 - 35)' ]),
+                div({
+                  className: 'progress-bar progress-bar-danger',
+                  style: 'width: ' + ((40 - 35) / IMC_LENGTH) * 100 + '%',
+                  'title': 'obesidade II (40 - 35)'
+                }, [ 'obesidade II (40 - 35)' ]),
+              ]),
+
+              div([
+                a({
+                  href: 'https://github.com/saitodisse/cycle-webpack-IMC-example',
+                  target: '_blank',
+                }, ['Fork me on GitHub']),
+                hr(),
+                'powered by: ',
+                a({href: 'http://cycle.js.org/', target: '_blank'}, ['Cycle.js']),
+                ', ',
+                a({href: 'https://webpack.github.io/', target: '_blank'}, ['webpack']),
+                ', ',
+                a({href: 'https://babeljs.io/', target: '_blank'}, ['babel']),
+                ', ',
+                a({href: 'https://surge.sh/', target: '_blank'}, ['surge.sh']),
+              ])
+            ]),
           ]),
-          hr(),
-
-          h3([`${bmiResult.description}`]),
-          hr(),
-
-          h3([`IMC: ${bmiResult.bmiFormated}`]),
-          hr(),
-
-          div('.progress', [
-            div({
-              className: 'progress-bar ' + bmiResult.className,
-              style: 'width: ' + (bmiResult.bmi - 12) / IMC_LENGTH * 100 + '%',
-              'title': 'IMC: ' + bmiResult.bmiFormated
-            }, [ bmiResult.bmiFormated ]),
-          ]),
-
-          div('.progress', [
-            div({
-              className: 'progress-bar progress-bar-danger',
-              style: 'width: ' + ((15 - 12) / IMC_LENGTH) * 100 + '%',
-              'title': 'anorexia (< 15)'
-            }, [ 'anorexia (< 15)' ]),
-            div({
-              className: 'progress-bar progress-bar-warning',
-              style: 'width: ' + ((18.5 - 15) / IMC_LENGTH) * 100 + '%',
-              'title': 'abaixo do peso (15 - 18.5)'
-            }, [ 'abaixo do peso (15 - 18.5)' ]),
-            div({
-              className: 'progress-bar progress-bar-success',
-              style: 'width: ' + ((25 - 18.5) / IMC_LENGTH) * 100 + '%',
-              'title': 'ok (18.5 - 25)'
-            }, [ 'ok (18.5 - 25)' ]),
-            div({
-              className: 'progress-bar progress-bar-warning',
-              style: 'width: ' + ((30 - 25) / IMC_LENGTH) * 100 + '%',
-              'title': 'acima do peso (25 - 30)'
-            }, [ 'acima do peso (25 - 30)' ]),
-            div({
-              className: 'progress-bar progress-bar-orange',
-              style: 'width: ' + ((35 - 30) / IMC_LENGTH) * 100 + '%',
-              'title': 'obesidade I (30 - 35)'
-            }, [ 'obesidade I (30 - 35)' ]),
-            div({
-              className: 'progress-bar progress-bar-danger',
-              style: 'width: ' + ((40 - 35) / IMC_LENGTH) * 100 + '%',
-              'title': 'obesidade II (40 - 35)'
-            }, [ 'obesidade II (40 - 35)' ]),
-          ]),
-
-          div([
-            a({
-              href: 'https://github.com/saitodisse/cycle-webpack-IMC-example',
-              target: '_blank',
-            }, ['Fork me on GitHub']),
-            hr(),
-            'powered by: ',
-            a({href: 'http://cycle.js.org/', target: '_blank'}, ['Cycle.js']),
-            ', ',
-            a({href: 'https://webpack.github.io/', target: '_blank'}, ['webpack']),
-            ', ',
-            a({href: 'https://babeljs.io/', target: '_blank'}, ['babel']),
-          ])
 
         ])
       )
